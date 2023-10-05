@@ -17,13 +17,14 @@ class App {
     MissionUtils.Console.readLine(
       "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.",
       (userInput) => {
-        console.log(userInput)
-        if (userInput === "1") {
+        userInput = Number(userInput)
+        if (userInput === 1) {
           let computerNumbers = this.generateRandomNumbers()
           this.readUserInput(computerNumbers)
-        }
-        if (userInput === "2") {
+        } else if (userInput === 2) {
           MissionUtils.Console.close()
+        } else {
+          throw "잘못된 값을 입력하였습니다."
         }
       }
     )
@@ -34,7 +35,10 @@ class App {
       this.userInput = userInput
       let strike = this.countStrikeNumbers(computerNumbers, userInput)
       let ball = this.countBallNumbers(computerNumbers, userInput)
-      console.log(strike, ball)
+
+      if (!this.isCorrectUserInput(userInput)) {
+        throw "잘못된 값을 입력하였습니다."
+      }
 
       if (strike === 0 && ball === 0) {
         MissionUtils.Console.print("낫싱")
@@ -56,6 +60,14 @@ class App {
         this.askRestartGame()
       }
     })
+  }
+
+  isCorrectUserInput(userInput) {
+    if (userInput === "") return false
+    if (/[^1-9]/g.test(userInput)) return false
+    if (userInput.length !== 3) return false
+    if (new Set(userInput.split("")).size !== 3) return false
+    return true
   }
 
   countStrikeNumbers(computerNumbers, userInput) {
