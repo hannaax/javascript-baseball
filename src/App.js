@@ -1,7 +1,6 @@
 const MissionUtils = require("@woowacourse/mission-utils")
 
-const GAME_START_MESSAGE = "숫자 야구 게임을 시작합니다."
-const INPUT_MESSAGE = "숫자를 입력해주세요 : "
+const { RESULT, GAME_MESSAGE, GAME_ERROR_MESSAGE } = require("./constants.js")
 
 class App {
   constructor() {
@@ -10,53 +9,48 @@ class App {
   }
 
   printGameStartMessage() {
-    MissionUtils.Console.print(GAME_START_MESSAGE)
+    MissionUtils.Console.print(GAME_MESSAGE.START)
   }
 
   askRestartGame() {
-    MissionUtils.Console.readLine(
-      "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.",
-      (userInput) => {
-        userInput = Number(userInput)
-        if (userInput === 1) {
-          let computerNumbers = this.generateRandomNumbers()
-          this.readUserInput(computerNumbers)
-        } else if (userInput === 2) {
-          MissionUtils.Console.close()
-        } else {
-          throw "잘못된 값을 입력하였습니다."
-        }
+    MissionUtils.Console.readLine(GAME_MESSAGE.RESTART, (userInput) => {
+      userInput = Number(userInput)
+      if (userInput === 1) {
+        let computerNumbers = this.generateRandomNumbers()
+        this.readUserInput(computerNumbers)
+      } else if (userInput === 2) {
+        MissionUtils.Console.close()
+      } else {
+        throw GAME_ERROR_MESSAGE.WRONG_INPUT
       }
-    )
+    })
   }
 
   readUserInput(computerNumbers) {
-    MissionUtils.Console.readLine(INPUT_MESSAGE, (userInput) => {
+    MissionUtils.Console.readLine(GAME_MESSAGE.INPUT, (userInput) => {
       this.userInput = userInput
       let strike = this.countStrikeNumbers(computerNumbers, userInput)
       let ball = this.countBallNumbers(computerNumbers, userInput)
 
       if (!this.isCorrectUserInput(userInput)) {
-        throw "잘못된 값을 입력하였습니다."
+        throw GAME_ERROR_MESSAGE.WRONG_INPUT
       }
 
       if (strike === 0 && ball === 0) {
-        MissionUtils.Console.print("낫싱")
+        MissionUtils.Console.print(RESULT.NOTHING)
         this.readUserInput(computerNumbers)
       }
 
       if (strike !== 3) {
         let message = ""
-        message += ball ? `${ball}볼 ` : ""
-        message += strike ? `${strike}스트라이크` : ""
+        message += ball ? `${ball}${RESULT.BALL} ` : RESULT.BLANK
+        message += strike ? `${strike}${RESULT.STRIKE}` : RESULT.BLANK
         MissionUtils.Console.print(message)
         this.readUserInput(computerNumbers)
       }
 
       if (strike === 3) {
-        MissionUtils.Console.print(
-          `3스트라이크\n3개의 숫자를 모두 맞히셨습니다! 게임 종료`
-        )
+        MissionUtils.Console.print(GAME_MESSAGE.ANSWER)
         this.askRestartGame()
       }
     })

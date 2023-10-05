@@ -1,11 +1,3 @@
-// const App = require("../App.js")
-
-// describe("컴퓨터 숫자와 사용자 숫자 비교 결과", () => {
-//   let app
-//   beforeEach(() => {
-//     app = new App()
-//   })
-
 const App = require("../App.js")
 const MissionUtils = require("@woowacourse/mission-utils")
 
