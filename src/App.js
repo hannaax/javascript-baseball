@@ -18,6 +18,13 @@ class App {
       "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.",
       (userInput) => {
         console.log(userInput)
+        if (userInput === "1") {
+          let computerNumbers = this.generateRandomNumbers()
+          this.readUserInput(computerNumbers)
+        }
+        if (userInput === "2") {
+          MissionUtils.Console.close()
+        }
       }
     )
   }
@@ -64,7 +71,6 @@ class App {
       (number, index) =>
         userInput.includes(number) && number != userInput[index]
     ).length
-    console.log(computerNumbers, userInput)
     return count
   }
 
