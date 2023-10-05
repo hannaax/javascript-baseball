@@ -13,23 +13,40 @@ class App {
     MissionUtils.Console.print(GAME_START_MESSAGE)
   }
 
+  askRestartGame() {
+    MissionUtils.Console.readLine(
+      "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.",
+      (userInput) => {
+        console.log(userInput)
+      }
+    )
+  }
+
   readUserInput(computerNumbers) {
     MissionUtils.Console.readLine(INPUT_MESSAGE, (userInput) => {
       this.userInput = userInput
-      this.readUserInput()
       let strike = this.countStrikeNumbers(computerNumbers, userInput)
       let ball = this.countBallNumbers(computerNumbers, userInput)
       console.log(strike, ball)
 
       if (strike === 0 && ball === 0) {
         MissionUtils.Console.print("낫싱")
+        this.readUserInput(computerNumbers)
       }
 
       if (strike !== 3) {
         let message = ""
         message += ball ? `${ball}볼 ` : ""
-        message += strike ? `${strike}스트라이크 ` : ""
+        message += strike ? `${strike}스트라이크` : ""
         MissionUtils.Console.print(message)
+        this.readUserInput(computerNumbers)
+      }
+
+      if (strike === 3) {
+        MissionUtils.Console.print(
+          `3스트라이크\n3개의 숫자를 모두 맞히셨습니다! 게임 종료`
+        )
+        this.askRestartGame()
       }
     })
   }
@@ -38,6 +55,7 @@ class App {
     const count = computerNumbers.filter(
       (number, index) => number == userInput[index]
     ).length
+    console.log(computerNumbers, userInput)
     return count
   }
 
@@ -46,6 +64,7 @@ class App {
       (number, index) =>
         userInput.includes(number) && number != userInput[index]
     ).length
+    console.log(computerNumbers, userInput)
     return count
   }
 
