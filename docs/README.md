@@ -2,7 +2,7 @@
 
 ### 게임 시작
 
-- [ ] '숫자 야구 게임을 시작합니다.'를 출력한다. MissionUtils 라이브러리의 Console.print를 활용한다.
+- [x] '숫자 야구 게임을 시작합니다.'를 출력한다. MissionUtils 라이브러리의 Console.print를 활용한다.
 
 ### 게임 중
 
