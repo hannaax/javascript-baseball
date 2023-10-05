@@ -20,8 +20,16 @@ class App {
       let strike = this.countStrikeNumbers(computerNumbers, userInput)
       let ball = this.countBallNumbers(computerNumbers, userInput)
       console.log(strike, ball)
+
       if (strike === 0 && ball === 0) {
         MissionUtils.Console.print("낫싱")
+      }
+
+      if (strike !== 3) {
+        let message = ""
+        message += ball ? `${ball}볼 ` : ""
+        message += strike ? `${strike}스트라이크 ` : ""
+        MissionUtils.Console.print(message)
       }
     })
   }
