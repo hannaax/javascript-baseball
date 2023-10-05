@@ -74,7 +74,6 @@ class App {
     const count = computerNumbers.filter(
       (number, index) => number == userInput[index]
     ).length
-    console.log(computerNumbers, userInput)
     return count
   }
 
@@ -93,7 +92,6 @@ class App {
         this.computerNumbers.push(randomNumber)
       }
     }
-    console.log(this.computerNumbers)
     return this.computerNumbers
   }
 
